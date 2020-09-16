@@ -20,3 +20,4 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 export const authService = firebase.auth();
+export const firebaseInstance = firebase;
