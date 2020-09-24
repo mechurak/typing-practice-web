@@ -1,8 +1,9 @@
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from "firebase/app";
-import "firebase/analytics"
-import "firebase/auth"
-import "firebase/firestore"
+import "firebase/analytics";
+import "firebase/auth";
+import "firebase/firestore";
+import "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -20,6 +21,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
+export const firebaseInstance = firebase;
 export const authService = firebase.auth();
 export const dbService = firebase.firestore();
-export const firebaseInstance = firebase;
+export const storageService = firebase.storage();
