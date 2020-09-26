@@ -31,9 +31,9 @@ export default ({ refreshUser, userObj }) => {
     console.log(nweets.docs.map((doc) => doc.data()));
   };
 
-  //   useEffect(() => {
-  //       getMyNweets();
-  //   }, []);
+  useEffect(() => {
+    getMyNweets();
+  }, []);
   return (
     <>
       <form onSubmit={onSubmit}>
