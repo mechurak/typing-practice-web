@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import { makeStyles } from '@material-ui/styles';
 import { Tab, Tabs } from '@material-ui/core';
+import { Link } from "react-router-dom";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -40,6 +41,18 @@ export default function Header(props) {
     setValue(value);
   };
 
+  useEffect(() => {
+    if (window.location.pathname === "/" && value !== 0) {
+      setValue(0);
+    } else if (window.location.pathname === "/practice" && value !== 1) {
+      setValue(1);
+    } else if (window.location.pathname === "/import" && value !== 2) {
+      setValue(2);
+    } else if (window.location.pathname === "/history" && value !== 3) {
+      setValue(3);
+    }
+  }, [value]);
+
   return (
     <React.Fragment>
       <ElevationScroll>
@@ -54,10 +67,10 @@ export default function Header(props) {
               // indicatorColor="primary"
               className={classes.tabContainer}
             >
-              <Tab className={classes.tab} label="Home" />
-              <Tab className={classes.tab} label="Practice" />
-              <Tab className={classes.tab} label="Import" />
-              <Tab className={classes.tab} label="History" />
+              <Tab className={classes.tab} label="Home" component={Link} to="/" />
+              <Tab className={classes.tab} label="Practice" component={Link} to="/practice" />
+              <Tab className={classes.tab} label="Import" component={Link} to="/import" />
+              <Tab className={classes.tab} label="History" component={Link} to="/history" />
             </Tabs>
           </Toolbar>
         </AppBar>
