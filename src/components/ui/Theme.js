@@ -5,21 +5,21 @@ const arcOrange = "#FFBA60";
 
 
 export default createMuiTheme({
-  palette: {
-    common: {
-      arcBlue: `${arcBlue}`,
-      arcOrange: `${arcOrange}`,
-    },
-    primary: {
-      main: `${arcBlue}`
-    },
-    secondary: {
-      main: `${arcOrange}`
-    },
-  },
+  // palette: {
+  //   common: {
+  //     arcBlue: `${arcBlue}`,
+  //     arcOrange: `${arcOrange}`,
+  //   },
+  //   primary: {
+  //     main: `${arcBlue}`
+  //   },
+  //   secondary: {
+  //     main: `${arcOrange}`
+  //   },
+  // },
   typography: {
     tab: {
-      fontFamily: "Raleway",
+      // fontFamily: "Raleway",
       textTransform: "none",
       fontWeight: 700,
       fontSzie: "1rem",

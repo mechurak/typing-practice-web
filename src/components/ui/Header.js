@@ -4,7 +4,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import { makeStyles } from '@material-ui/styles';
-import { Tab, Tabs } from '@material-ui/core';
+import { IconButton, Tab, Tabs } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from "react-router-dom";
 
 function ElevationScroll(props) {
@@ -20,6 +21,9 @@ function ElevationScroll(props) {
 }
 
 const useStyles = makeStyles(theme => ({
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
   toolbarMargin: {
     ...theme.mixins.toolbar
   },
@@ -58,7 +62,10 @@ export default function Header(props) {
       <ElevationScroll>
         <AppBar position="fixed">
           <Toolbar>
-            <Typography variant="h5">
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6">
               Typing Practice
             </Typography>
             <Tabs
