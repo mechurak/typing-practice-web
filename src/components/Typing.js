@@ -1,18 +1,38 @@
-import { Box } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
+import Character from './Character';
 
 export default function Typing({ leftStr }) {
   const strArray = [...leftStr];
-  console.log(strArray);
+  const [curIndex, setCurIndex] = useState(0);
+  const [input, setInput] = useState("");
+  const ignoreList = ["Alt", "Shift", "Control", "HangulMode", "HanjaMode"];
+
+  const handleTyping = (e) => {
+    if (ignoreList.indexOf(e.key) > -1) {
+      // ignore
+    }
+    else if (e.key === "Backspace" && curIndex > 0) {
+      setCurIndex(curIndex - 1);
+      setInput("");
+    }
+    else if (e.key === strArray[curIndex]) {
+      setCurIndex(curIndex + 1);
+      setInput("");
+    }
+    else if (e.key === "Enter" && strArray[curIndex] === "\n") {
+      setCurIndex(curIndex + 1);
+      setInput("");
+    }
+    else {
+      setInput(e.key);
+    }
+  };
 
   return (
-    <div>
+    <div tabIndex={0} onKeyUp={handleTyping}>
       {
         strArray.map((c, i) => {
-          if (c === '\n') {
-            return <Box key={i}>{c}</Box>
-          }
-          return <Box component="span" key={i}>{c}</Box>
+          return <Character key={i} c={c} index={i} cursor={curIndex} input={input} />
         })
       }
     </div>
