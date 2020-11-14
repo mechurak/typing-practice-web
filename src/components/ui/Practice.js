@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import { Button, Typography } from '@material-ui/core';
+import Typing from '../Typing';
 
 const tempQuestions = [
   {
@@ -40,7 +41,7 @@ I think getting a good night's sleep is very important.
 I need to get at least seven hours of sleep each day.
 The mattress is covered with a bed sheet.
 There is a warm blanket and several pillows on the bed.
-There is also an electronic mat on the bad, which keeps me warm at night.
+There is also an electronic mat on the bed, which keeps me warm at night.
 
 I always make my bed when I wake up in the morning.
 I like to keep my bed nice and tidy.
@@ -51,6 +52,7 @@ So, these are the furniture I have at home.`,
   },
 ]
 
+const leftStr = tempAnswers[0]['answer'];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,16 +66,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 14,
   },
-  answerText: {
-    width: '100%',
-    height: '300px',
-  },
 }));
 
 export default function Practice() {
   const classes = useStyles();
-  console.log(tempQuestions[0]);
-  console.log(tempAnswers[0]);
 
   return (
     <div className={classes.root}>
@@ -84,11 +80,11 @@ export default function Practice() {
               <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {tempQuestions[0]["id"]}
               </Typography>
-              <Typography variant="body1">
-                <pre style={{ fontFamily: 'inherit' }}>
+              <pre style={{ fontFamily: 'inherit' }}>
+                <Typography variant="body1" component="p">
                   {tempQuestions[0]["question"]}
-                </pre>
-              </Typography>
+                </Typography>
+              </pre>
             </CardContent>
             <CardActions>
               <Button size="small">Hint</Button>
@@ -101,14 +97,7 @@ export default function Practice() {
               <Typography className={classes.title} color="textSecondary" gutterBottom>
                 {tempAnswers[0]["id"]}
               </Typography>
-              <div class="diff_container">
-                <div class="backdrop">
-                  <div class="diff_highlights"></div>
-                </div>
-                <textarea id="my_textarea" className={classes.answerText}>
-                  {tempAnswers[0]["answer"]}
-                </textarea>
-              </div>              
+              <Typing leftStr={leftStr} />
             </CardContent>
             <CardActions>
               <Button size="small">Hint</Button>
