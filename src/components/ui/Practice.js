@@ -1,36 +1,36 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Grid from '@material-ui/core/Grid';
-import { Button, Typography } from '@material-ui/core';
-import Typing from '../Typing';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import { Button, Typography } from "@material-ui/core";
+import Typing from "../Typing";
 
 const CUR_QUESTIONS_LS = "curQuestions";
 const CUR_ANSWERS_LS = "curAnswers";
 
 const tempQuestions = [
   {
-    "subject": "Furniture",
-    "category": "common",
-    "set": "가구#01",
-    "id": "Furniture#q1",
-    "final": "",
-    "hint": "[Int] 본인 집에 있는 가구, 가장 좋아하는 가구 묘사 - 침대",
-    "question": `Tell me about the furniture you have in your home.
+    subject: "Furniture",
+    category: "common",
+    set: "가구#01",
+    id: "Furniture#q1",
+    final: "",
+    hint: "[Int] 본인 집에 있는 가구, 가장 좋아하는 가구 묘사 - 침대",
+    question: `Tell me about the furniture you have in your home.
 Is there a piece that is your favorite?`,
-    "description": "",
-    "answer_id": "Furniture#a1",
+    description: "",
+    answer_id: "Furniture#a1",
   },
-]
+];
 
 const tempAnswers = [
   {
-    "subject": "Furniture",
-    "id": "Furniture#a1",
-    "hint": "[Int] 본인 집에 있는 가구, 가장 좋아하는 가구 묘사 - 침대",
-    "answer": `There are many types of furniture in my apartment.
+    subject: "Furniture",
+    id: "Furniture#a1",
+    hint: "[Int] 본인 집에 있는 가구, 가장 좋아하는 가구 묘사 - 침대",
+    answer: `There are many types of furniture in my apartment.
 
 In the living room, there is a sofa, a coffee table and a display case.
 In the bedroom, I have a desk, a chair, a bed and a nightstand.
@@ -50,10 +50,10 @@ I always make my bed when I wake up in the morning.
 I like to keep my bed nice and tidy.
 
 So, these are the furniture I have at home.`,
-    "description": "본인 방 묘사 답변에 활용",
-    "important": "",
+    description: "본인 방 묘사 답변에 활용",
+    important: "",
   },
-]
+];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
   title: {
@@ -72,11 +72,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Practice() {
   const classes = useStyles();
 
-  const questions = JSON.parse(localStorage.getItem(CUR_QUESTIONS_LS)) || tempQuestions;  
-  const answers = JSON.parse(localStorage.getItem(CUR_ANSWERS_LS)) || tempAnswers;
+  const questions =
+    JSON.parse(localStorage.getItem(CUR_QUESTIONS_LS)) || tempQuestions;
+  const answers =
+    JSON.parse(localStorage.getItem(CUR_ANSWERS_LS)) || tempAnswers;
   const questionLength = questions.length;
 
   const [curIndex, setCurIndex] = useState(0);
+  const [hintEnabled, setHintEnabled] = useState(false);
 
   const handleNext = () => {
     let newIndex = curIndex + 1;
@@ -84,15 +87,19 @@ export default function Practice() {
       newIndex = 0;
     }
     setCurIndex(newIndex);
-  }
-  
+  };
+
   const handlePrev = () => {
     let newIndex = curIndex - 1;
     if (newIndex < 0) {
       newIndex = questionLength - 1;
     }
     setCurIndex(newIndex);
-  }
+  };
+
+  const handleHint = () => {
+    setHintEnabled(~hintEnabled);
+  };
 
   return (
     <div className={classes.root}>
@@ -100,31 +107,89 @@ export default function Practice() {
         <Grid item xs={12} sm={6}>
           <Card className={classes.root}>
             <CardContent>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                {questions[curIndex]["id"]}
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                [{questions[curIndex]["set"]}] {questions[curIndex]["id"]}
               </Typography>
-              <pre style={{ fontFamily: 'inherit' }}>
+              <pre style={{ fontFamily: "inherit" }}>
                 <Typography variant="body1" component="p">
                   {questions[curIndex]["question"]}
                 </Typography>
               </pre>
+              {hintEnabled ? (
+                <>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Hint (question)
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                    {questions[curIndex]["hint"]}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Hint (answer)
+                  </Typography>
+                  <pre style={{ fontFamily: "inherit" }}>
+                    <Typography variant="body2" component="p">
+                      {answers[curIndex]["hint"]}
+                    </Typography>
+                  </pre>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Description (answer)
+                  </Typography>
+                  <pre style={{ fontFamily: "inherit" }}>
+                    <Typography variant="body2" component="p">
+                      {answers[curIndex]["description"]}
+                    </Typography>
+                  </pre>
+                </>
+              ) : null}
             </CardContent>
-            <CardActions>              
-              <Button size="small" onClick={handlePrev}>Prev</Button>
+            <CardActions>
+              <Button size="small" onClick={handlePrev}>
+                Prev
+              </Button>
               <Typography variant="body1">
-                  {curIndex + 1} / {questionLength}
-                </Typography>
-              <Button size="small" onClick={handleNext}>Next</Button>
+                {curIndex + 1} / {questionLength}
+              </Typography>
+              <Button size="small" onClick={handleNext}>
+                Next
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color={hintEnabled ? "primary" : "default"}
+                onClick={handleHint}
+              >
+                Hint
+              </Button>
             </CardActions>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Card className={classes.root}>
             <CardContent>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
                 {answers[curIndex]["id"]}
               </Typography>
-              <Typing leftStr={answers[curIndex]['answer']} />
+              <Typing leftStr={answers[curIndex]["answer"]} />
             </CardContent>
             <CardActions>
               <Button size="small">Hint</Button>
