@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Character({ c, index, cursor, input }) {
+export default function Character({ c, index, cursor, input, guideEnabled }) {
   const waitStyle = {
     color: "silver",
     borderBottom: "3px solid blue",
@@ -9,7 +9,9 @@ export default function Character({ c, index, cursor, input }) {
     color: "red",
     borderBottom: "3px solid red",
   }
-  const todoStyle = {
+  const todoStyle = guideEnabled ? {
+    color: "silver"
+  } : {
     color: "snow"
   }
   const doneStyle = {

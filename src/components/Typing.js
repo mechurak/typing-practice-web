@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Character from './Character';
 
-export default function Typing({ leftStr }) {
+export default function Typing({ leftStr, guideEnabled }) {
   const strArray = [...leftStr];
   const [curIndex, setCurIndex] = useState(0);
   const [input, setInput] = useState("");
@@ -32,7 +32,7 @@ export default function Typing({ leftStr }) {
     <div tabIndex={0} onKeyUp={handleTyping}>
       {
         strArray.map((c, i) => {
-          return <Character key={i} c={c} index={i} cursor={curIndex} input={input} />
+          return <Character key={i} c={c} index={i} cursor={curIndex} input={input} guideEnabled={guideEnabled} />
         })
       }
     </div>

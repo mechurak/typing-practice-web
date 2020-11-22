@@ -80,6 +80,7 @@ export default function Practice() {
 
   const [curIndex, setCurIndex] = useState(0);
   const [hintEnabled, setHintEnabled] = useState(false);
+  const [guideEnabled, setGuideEnabled] = useState(false);
 
   const handleNext = () => {
     let newIndex = curIndex + 1;
@@ -100,6 +101,10 @@ export default function Practice() {
   const handleHint = () => {
     setHintEnabled(~hintEnabled);
   };
+
+  const handleGuide = () => {
+    setGuideEnabled(~guideEnabled);
+  }
 
   return (
     <div className={classes.root}>
@@ -174,7 +179,7 @@ export default function Practice() {
                 color={hintEnabled ? "primary" : "default"}
                 onClick={handleHint}
               >
-                Hint
+                {hintEnabled ? "Hint off" : "Hint on"}
               </Button>
             </CardActions>
           </Card>
@@ -189,10 +194,17 @@ export default function Practice() {
               >
                 {answers[curIndex]["id"]}
               </Typography>
-              <Typing leftStr={answers[curIndex]["answer"]} />
+              <Typing leftStr={answers[curIndex]["answer"]} guideEnabled={guideEnabled} />
             </CardContent>
             <CardActions>
-              <Button size="small">Hint</Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color={guideEnabled ? "primary" : "default"}
+                onClick={handleGuide}
+              >
+                {guideEnabled ? "Guide off" : "Guide on"}
+              </Button>
             </CardActions>
           </Card>
         </Grid>
