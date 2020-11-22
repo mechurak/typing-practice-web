@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Character from './Character';
 
 export default function Typing({ leftStr, guideEnabled }) {
@@ -6,6 +6,10 @@ export default function Typing({ leftStr, guideEnabled }) {
   const [curIndex, setCurIndex] = useState(0);
   const [input, setInput] = useState("");
   const ignoreList = ["Alt", "Shift", "Control", "HangulMode", "HanjaMode"];
+
+  useEffect(() => {
+    setCurIndex(0);
+  }, [leftStr]);
 
   const handleTyping = (e) => {
     if (ignoreList.indexOf(e.key) > -1) {
