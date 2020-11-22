@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/typing-practice-web/static/js/main.0499ced8.chunk.js",
-    "main.js.map": "/typing-practice-web/static/js/main.0499ced8.chunk.js.map",
+    "main.js": "/typing-practice-web/static/js/main.6c653d27.chunk.js",
+    "main.js.map": "/typing-practice-web/static/js/main.6c653d27.chunk.js.map",
     "runtime-main.js": "/typing-practice-web/static/js/runtime-main.4d87a699.js",
     "runtime-main.js.map": "/typing-practice-web/static/js/runtime-main.4d87a699.js.map",
-    "static/js/2.7211c5cd.chunk.js": "/typing-practice-web/static/js/2.7211c5cd.chunk.js",
-    "static/js/2.7211c5cd.chunk.js.map": "/typing-practice-web/static/js/2.7211c5cd.chunk.js.map",
+    "static/js/2.0de1f53d.chunk.js": "/typing-practice-web/static/js/2.0de1f53d.chunk.js",
+    "static/js/2.0de1f53d.chunk.js.map": "/typing-practice-web/static/js/2.0de1f53d.chunk.js.map",
     "index.html": "/typing-practice-web/index.html",
-    "static/js/2.7211c5cd.chunk.js.LICENSE.txt": "/typing-practice-web/static/js/2.7211c5cd.chunk.js.LICENSE.txt"
+    "static/js/2.0de1f53d.chunk.js.LICENSE.txt": "/typing-practice-web/static/js/2.0de1f53d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4d87a699.js",
-    "static/js/2.7211c5cd.chunk.js",
-    "static/js/main.0499ced8.chunk.js"
+    "static/js/2.0de1f53d.chunk.js",
+    "static/js/main.6c653d27.chunk.js"
   ]
 }
