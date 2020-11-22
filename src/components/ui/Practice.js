@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -6,6 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import { Button, Typography } from '@material-ui/core';
 import Typing from '../Typing';
+
+const CUR_QUESTIONS_LS = "curQuestions";
+const CUR_ANSWERS_LS = "curAnswers";
 
 const tempQuestions = [
   {
@@ -52,8 +55,6 @@ So, these are the furniture I have at home.`,
   },
 ]
 
-const leftStr = tempAnswers[0]['answer'];
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -71,6 +72,28 @@ const useStyles = makeStyles((theme) => ({
 export default function Practice() {
   const classes = useStyles();
 
+  const questions = JSON.parse(localStorage.getItem(CUR_QUESTIONS_LS)) || tempQuestions;  
+  const answers = JSON.parse(localStorage.getItem(CUR_ANSWERS_LS)) || tempAnswers;
+  const questionLength = questions.length;
+
+  const [curIndex, setCurIndex] = useState(0);
+
+  const handleNext = () => {
+    let newIndex = curIndex + 1;
+    if (newIndex >= questionLength) {
+      newIndex = 0;
+    }
+    setCurIndex(newIndex);
+  }
+  
+  const handlePrev = () => {
+    let newIndex = curIndex - 1;
+    if (newIndex < 0) {
+      newIndex = questionLength - 1;
+    }
+    setCurIndex(newIndex);
+  }
+
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
@@ -78,16 +101,20 @@ export default function Practice() {
           <Card className={classes.root}>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                {tempQuestions[0]["id"]}
+                {questions[curIndex]["id"]}
               </Typography>
               <pre style={{ fontFamily: 'inherit' }}>
                 <Typography variant="body1" component="p">
-                  {tempQuestions[0]["question"]}
+                  {questions[curIndex]["question"]}
                 </Typography>
               </pre>
             </CardContent>
-            <CardActions>
-              <Button size="small">Hint</Button>
+            <CardActions>              
+              <Button size="small" onClick={handlePrev}>Prev</Button>
+              <Typography variant="body1">
+                  {curIndex + 1} / {questionLength}
+                </Typography>
+              <Button size="small" onClick={handleNext}>Next</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -95,9 +122,9 @@ export default function Practice() {
           <Card className={classes.root}>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                {tempAnswers[0]["id"]}
+                {answers[curIndex]["id"]}
               </Typography>
-              <Typing leftStr={leftStr} />
+              <Typing leftStr={answers[curIndex]['answer']} />
             </CardContent>
             <CardActions>
               <Button size="small">Hint</Button>
