@@ -33,7 +33,7 @@ export default function Typing({ leftStr, guideEnabled }) {
   };
 
   return (
-    <div tabIndex={0} onKeyUp={handleTyping}>
+    <div tabIndex={0} onKeyDown={handleTyping}>
       {
         strArray.map((c, i) => {
           return <Character key={i} c={c} index={i} cursor={curIndex} input={input} guideEnabled={guideEnabled} />
