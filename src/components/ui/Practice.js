@@ -58,6 +58,7 @@ So, these are the furniture I have at home.`,
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginBottom: "10px",
   },
   paper: {
     padding: theme.spacing(2),
@@ -104,7 +105,7 @@ export default function Practice() {
 
   const handleGuide = () => {
     setGuideEnabled(~guideEnabled);
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -131,35 +132,11 @@ export default function Practice() {
                     color="textSecondary"
                     gutterBottom
                   >
-                    Hint (question)
+                    Hint ({questions[curIndex]["id"]})
                   </Typography>
                   <Typography variant="body2" component="p">
                     {questions[curIndex]["hint"]}
                   </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Hint (answer)
-                  </Typography>
-                  <pre style={{ fontFamily: "inherit" }}>
-                    <Typography variant="body2" component="p">
-                      {answers[curIndex]["hint"]}
-                    </Typography>
-                  </pre>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Description (answer)
-                  </Typography>
-                  <pre style={{ fontFamily: "inherit" }}>
-                    <Typography variant="body2" component="p">
-                      {answers[curIndex]["description"]}
-                    </Typography>
-                  </pre>
                 </>
               ) : null}
             </CardContent>
@@ -183,6 +160,28 @@ export default function Practice() {
               </Button>
             </CardActions>
           </Card>
+          {hintEnabled ? (
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  Hint ({answers[curIndex]["id"]})
+                </Typography>
+                <pre style={{ fontFamily: "inherit" }}>
+                  <Typography variant="body2" component="p">
+                    {answers[curIndex]["hint"]}
+                  </Typography>
+                </pre>
+                <Typography variant="body2" color="textSecondary" gutterBottom>
+                  Description ({answers[curIndex]["id"]})
+                </Typography>
+                <pre style={{ fontFamily: "inherit" }}>
+                  <Typography variant="body2" component="p">
+                    {answers[curIndex]["description"]}
+                  </Typography>
+                </pre>
+              </CardContent>
+            </Card>
+          ) : null}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Card className={classes.root}>
@@ -194,7 +193,10 @@ export default function Practice() {
               >
                 {answers[curIndex]["id"]}
               </Typography>
-              <Typing leftStr={answers[curIndex]["answer"]} guideEnabled={guideEnabled} />
+              <Typing
+                leftStr={answers[curIndex]["answer"]}
+                guideEnabled={guideEnabled}
+              />
             </CardContent>
             <CardActions>
               <Button
