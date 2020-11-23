@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import theme from './ui/Theme';
 import Header from '../components/ui/Header';
 import Practice from './ui/Practice';
@@ -12,10 +12,12 @@ function App() {
       <BrowserRouter>
         <Header />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Home} />          
           <Route exact path="/practice" component={Practice} />
           <Route exact path="/import" component={Import} />
-          <Route exact path="/history" component={() => <div>History</div>} />
+          <Route exact path="/history" component={() => <div>History</div>} />          
+          {/* Redirect all 404's to home */}
+          <Redirect to='/' />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
