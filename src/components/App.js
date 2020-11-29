@@ -7,9 +7,11 @@ import Import from './ui/Import';
 import Home from './ui/Home';
 
 function App() {
+  console.log("PUBLIC_URL", process.env.PUBLIC_URL)
+
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Header />
         <Switch>
           <Route exact path="/" component={Home} />          
