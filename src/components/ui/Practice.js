@@ -7,22 +7,24 @@ import Grid from "@material-ui/core/Grid";
 import { Button, Typography } from "@material-ui/core";
 import Typing from "../Typing";
 
-const CUR_QUESTIONS_LS = "curQuestions";
+const CUR_QUESTIONS_LIST_LS = "curQuestionsList";
 const CUR_ANSWERS_LS = "curAnswers";
 
-const tempQuestions = [
-  {
-    subject: "Furniture",
-    category: "common",
-    set: "가구#01",
-    id: "Furniture#q1",
-    final: "",
-    hint: "[Int] 본인 집에 있는 가구, 가장 좋아하는 가구 묘사 - 침대",
-    question: `Tell me about the furniture you have in your home.
+const tempQuestionsList = [
+  [
+    {
+      subject: "Furniture",
+      category: "common",
+      set: "가구#01",
+      id: "Furniture#q1",
+      final: "",
+      hint: "[Int] 본인 집에 있는 가구, 가장 좋아하는 가구 묘사 - 침대",
+      question: `Tell me about the furniture you have in your home.
 Is there a piece that is your favorite?`,
-    description: "",
-    answer_id: "Furniture#a1",
-  },
+      description: "",
+      answer_id: "Furniture#a1",
+    },
+  ],
 ];
 
 const tempAnswers = [
@@ -73,11 +75,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Practice() {
   const classes = useStyles();
 
-  const questions =
-    JSON.parse(localStorage.getItem(CUR_QUESTIONS_LS)) || tempQuestions;
+  const questionsList =
+    JSON.parse(localStorage.getItem(CUR_QUESTIONS_LIST_LS)) || tempQuestionsList;
   const answers =
     JSON.parse(localStorage.getItem(CUR_ANSWERS_LS)) || tempAnswers;
-  const questionLength = questions.length;
+  const questionLength = questionsList.length;
 
   const [curIndex, setCurIndex] = useState(0);
   const [hintEnabled, setHintEnabled] = useState(false);
@@ -107,38 +109,36 @@ export default function Practice() {
     setGuideEnabled(~guideEnabled);
   };
 
+  const questionsContent = questionsList[curIndex].map((questions, i) => (
+    <React.Fragment key={i}>
+      <Typography className={classes.title} color="textSecondary" gutterBottom>
+        [{questions["set"]}] {questions["id"]}
+      </Typography>
+      <pre style={{ fontFamily: "inherit" }}>
+        <Typography variant="body1" component="p">
+          {questions["question"]}
+        </Typography>
+      </pre>
+      {hintEnabled ? (
+        <>
+          <Typography variant="body2" color="textSecondary" gutterBottom>
+            Hint ({questions["id"]})
+          </Typography>
+          <Typography variant="body2" component="p">
+            {questions["hint"]}
+          </Typography>
+        </>
+      ) : null}
+    </React.Fragment>
+  ));
+
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
           <Card className={classes.root}>
             <CardContent>
-              <Typography
-                className={classes.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                [{questions[curIndex]["set"]}] {questions[curIndex]["id"]}
-              </Typography>
-              <pre style={{ fontFamily: "inherit" }}>
-                <Typography variant="body1" component="p">
-                  {questions[curIndex]["question"]}
-                </Typography>
-              </pre>
-              {hintEnabled ? (
-                <>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Hint ({questions[curIndex]["id"]})
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    {questions[curIndex]["hint"]}
-                  </Typography>
-                </>
-              ) : null}
+              {questionsContent}
             </CardContent>
             <CardActions>
               <Button size="small" onClick={handlePrev}>

@@ -3,7 +3,7 @@ import React from "react";
 
 const QUESTIONS_LS = "questions";
 const ANSWERS_LS = "answers";
-const CUR_QUESTIONS_LS = "curQuestions";
+const CUR_QUESTIONS_LIST_LS = "curQuestionsList";
 const CUR_ANSWERS_LS = "curAnswers";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,25 +24,30 @@ const Home = ({ history }) => {
 
   const handleClick = (event) => {
     const setStr = event.target.innerText;
-    console.log(setStr);
-    const curQuestions = questions.filter((item) => item.set === setStr);
-    console.log(curQuestions);
+    console.log(setStr);    
+    let curQuestionsList = []
+    questions.forEach((question) => {
+      if (question.set === setStr) {
+        curQuestionsList.push([question]);
+      }
+    });
+    console.log(curQuestionsList);    
     let curAnswers = [];
-    curQuestions.forEach((questionElement) => {
+    curQuestionsList.forEach((curQuestions) => {
       for (let i = 0; i < answers.length; i++) {
-        if (questionElement.answer_id === answers[i].id) {
+        if (curQuestions[0].answer_id === answers[i].id) {
           curAnswers.push(answers[i]);
           break;
         }
       }
     });
     console.log(curAnswers);
-    if (curQuestions.length !== curAnswers.length) {
+    if (curQuestionsList.length !== curAnswers.length) {
       alert(
-        `curQuestions(${curQuestions.length}) and curAnswers(${curAnswers.length}) have different length.`
+        `curQuestionsList(${curQuestionsList.length}) and curAnswers(${curAnswers.length}) have different length.`
       );
     } else {
-      localStorage.setItem(CUR_QUESTIONS_LS, JSON.stringify(curQuestions));
+      localStorage.setItem(CUR_QUESTIONS_LIST_LS, JSON.stringify(curQuestionsList));
       localStorage.setItem(CUR_ANSWERS_LS, JSON.stringify(curAnswers));
       // TODO: Let Header know this change
       history.push("practice");      
