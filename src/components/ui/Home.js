@@ -1,4 +1,5 @@
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import { Button, Divider, makeStyles, Typography } from "@material-ui/core";
+import { SubscriptionsOutlined } from "@material-ui/icons";
 import React from "react";
 
 const QUESTIONS_LS = "questions";
@@ -10,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   setButton: {
     margin: "10px",
     minWidth: "180px",
+    textTransform: "none"
   },
 }));
 
@@ -21,17 +23,20 @@ const Home = ({ history }) => {
   const questionSet = [...new Set(questions.map((item) => item.set))];
   console.log(questionSet);
   const answers = JSON.parse(localStorage.getItem(ANSWERS_LS)) || [];
+  console.log(answers)
+  const subjects = [...new Set(answers.map((answer) => answer.subject))];
+  console.log(subjects)
 
-  const handleClick = (event) => {
+  const handleSetClick = (event) => {
     const setStr = event.target.innerText;
-    console.log(setStr);    
-    let curQuestionsList = []
+    console.log(setStr);
+    let curQuestionsList = [];
     questions.forEach((question) => {
       if (question.set === setStr) {
         curQuestionsList.push([question]);
       }
     });
-    console.log(curQuestionsList);    
+    console.log(curQuestionsList);
     let curAnswers = [];
     curQuestionsList.forEach((curQuestions) => {
       for (let i = 0; i < answers.length; i++) {
@@ -47,22 +52,67 @@ const Home = ({ history }) => {
         `curQuestionsList(${curQuestionsList.length}) and curAnswers(${curAnswers.length}) have different length.`
       );
     } else {
-      localStorage.setItem(CUR_QUESTIONS_LIST_LS, JSON.stringify(curQuestionsList));
+      localStorage.setItem(
+        CUR_QUESTIONS_LIST_LS,
+        JSON.stringify(curQuestionsList)
+      );
       localStorage.setItem(CUR_ANSWERS_LS, JSON.stringify(curAnswers));
       // TODO: Let Header know this change
-      history.push("practice");      
+      history.push("practice");
     }
+  };
+
+  const handleSubjectClick = (event) => {
+    const subject = event.target.innerText;
+    console.log(subject);
+    let curAnswers = [];
+    answers.forEach((answer) => {
+      if (answer.subject === subject) {
+        curAnswers.push(answer);
+      }
+    });
+    console.log(curAnswers);
+    let curQuestionsList = [];
+    curAnswers.forEach((curAnser, answerIdx) => {
+      curQuestionsList.push([]);
+      for (let i = 0; i < questions.length; i++) {
+        if (curAnser.id === questions[i].answer_id) {
+          curQuestionsList[answerIdx].push(questions[i]);
+        }
+      }
+    });
+    console.log(curQuestionsList);
+
+    localStorage.setItem(
+      CUR_QUESTIONS_LIST_LS,
+      JSON.stringify(curQuestionsList)
+    );
+    localStorage.setItem(CUR_ANSWERS_LS, JSON.stringify(curAnswers));
+    // TODO: Let Header know this change
+    history.push("practice");
   };
 
   return (
     <div>
-      <Typography variant="h6">Choose a question set</Typography>
+      <Typography variant="h6">Practice by question set</Typography>
       {questionSet.map((item, index) => (
         <Button
           key={index}
           variant="contained"
           className={classes.setButton}
-          onClick={handleClick}
+          onClick={handleSetClick}
+        >
+          {item}
+        </Button>
+      ))}
+      <Divider />
+      <Typography variant="h6">Practice by subject</Typography>
+      {subjects.map((item, index) => (
+        <Button
+          key={index}
+          variant="contained"
+          className={classes.setButton}
+          onClick={handleSubjectClick}
         >
           {item}
         </Button>

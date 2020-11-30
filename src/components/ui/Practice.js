@@ -4,7 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Divider, Typography } from "@material-ui/core";
 import Typing from "../Typing";
 
 const CUR_QUESTIONS_LIST_LS = "curQuestionsList";
@@ -76,7 +76,8 @@ export default function Practice() {
   const classes = useStyles();
 
   const questionsList =
-    JSON.parse(localStorage.getItem(CUR_QUESTIONS_LIST_LS)) || tempQuestionsList;
+    JSON.parse(localStorage.getItem(CUR_QUESTIONS_LIST_LS)) ||
+    tempQuestionsList;
   const answers =
     JSON.parse(localStorage.getItem(CUR_ANSWERS_LS)) || tempAnswers;
   const questionLength = questionsList.length;
@@ -109,26 +110,27 @@ export default function Practice() {
     setGuideEnabled(~guideEnabled);
   };
 
-  const questionsContent = questionsList[curIndex].map((questions, i) => (
+  const questionsContent = questionsList[curIndex].map((question, i) => (
     <React.Fragment key={i}>
       <Typography className={classes.title} color="textSecondary" gutterBottom>
-        [{questions["set"]}] {questions["id"]}
+        [{question["set"]}] {question["id"]}
       </Typography>
       <pre style={{ fontFamily: "inherit" }}>
         <Typography variant="body1" component="p">
-          {questions["question"]}
+          {question["question"]}
         </Typography>
       </pre>
       {hintEnabled ? (
         <>
           <Typography variant="body2" color="textSecondary" gutterBottom>
-            Hint ({questions["id"]})
+            Hint ({question["id"]})
           </Typography>
           <Typography variant="body2" component="p">
-            {questions["hint"]}
+            {question["hint"]}
           </Typography>
         </>
       ) : null}
+      {i < questionsList[curIndex].length - 1 ? <Divider /> : null}
     </React.Fragment>
   ));
 
@@ -137,9 +139,7 @@ export default function Practice() {
       <Grid container spacing={1}>
         <Grid item xs={12} sm={6}>
           <Card className={classes.root}>
-            <CardContent>
-              {questionsContent}
-            </CardContent>
+            <CardContent>{questionsContent}</CardContent>
             <CardActions>
               <Button size="small" onClick={handlePrev}>
                 Prev
