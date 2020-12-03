@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   setButton: {
     margin: "10px",
     minWidth: "180px",
-    textTransform: "none"
+    textTransform: "none",
   },
 }));
 
@@ -23,9 +23,9 @@ const Home = ({ history }) => {
   const questionSet = [...new Set(questions.map((item) => item.set))];
   console.log(questionSet);
   const answers = JSON.parse(localStorage.getItem(ANSWERS_LS)) || [];
-  console.log(answers)
+  console.log(answers);
   const subjects = [...new Set(answers.map((answer) => answer.subject))];
-  console.log(subjects)
+  console.log(subjects);
 
   const handleSetClick = (event) => {
     const setStr = event.target.innerText;
@@ -73,13 +73,30 @@ const Home = ({ history }) => {
     });
     console.log(curAnswers);
     let curQuestionsList = [];
-    curAnswers.forEach((curAnser, answerIdx) => {
-      curQuestionsList.push([]);
+    curAnswers.forEach((curAnswer, answerIdx) => {
+      let tempArrayForMap = [];
       for (let i = 0; i < questions.length; i++) {
-        if (curAnser.id === questions[i].answer_id) {
-          curQuestionsList[answerIdx].push(questions[i]);
+        if (curAnswer.id === questions[i].answer_id) {
+          tempArrayForMap.push([questions[i]["question"], questions[i]]);
         }
       }
+      const tempMap = new Map();
+      tempArrayForMap.forEach((keyValue, i) => {
+        const [key, value] = keyValue;
+        let objFromMap = tempMap.get(key);
+        if (objFromMap === undefined) {
+          tempMap.set(key, value);
+        } else {
+          const setStr = value.set.split("#").pop();  // "집#02" -> "02"
+          objFromMap.set = objFromMap.set + "," + setStr;
+          const idStr = value.id.split("#").pop();  // "Housing#q7" -> "q7"
+          objFromMap.id = objFromMap.id + "," + idStr;
+        }
+      });
+      // console.log("tempMap", tempMap);
+      const tempQuestionsItem = [...tempMap.values()];
+      // console.log("tempQuestionsItem", tempQuestionsItem);
+      curQuestionsList.push(tempQuestionsItem);
     });
     console.log(curQuestionsList);
 
